@@ -1,6 +1,7 @@
 import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { db } from '../firebaseConfig';
 
 const useStyles = styled((theme) => ({
     formControl: {
@@ -54,16 +55,16 @@ const AddStudentForm = () => {
     const handleSubmit = async event => {
         event.preventDefault();
 
-        // try {
-        //     const collection = db.collection("students");
-        //     const addDoc = await collection.add({
-        //         name,
-        //         className
-        //     });
-        //     console.log(`Document added with ID: ${addDoc.id}`);
-        // } catch (error) {
-        //     console.error("Error adding document: ", error);
-        // }
+        try {
+            const collection = db.collection("students");
+            const addDoc = await collection.add({
+                name,
+                className
+            });
+            console.log(`Document added with ID: ${addDoc.id}`);
+        } catch (error) {
+            console.error("Error adding document: ", error);
+        }
     };
     return (
         <div style={{ marginLeft: '250px' }}>
