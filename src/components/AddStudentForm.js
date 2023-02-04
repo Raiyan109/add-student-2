@@ -2,6 +2,7 @@ import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@m
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { db } from '../firebaseConfig';
+import { addDoc, collection } from 'firebase/firestore';
 
 const useStyles = styled((theme) => ({
     formControl: {
@@ -52,19 +53,16 @@ const AddStudentForm = () => {
         }
     };
 
-    const handleSubmit = async event => {
+    const userCollectionRef = collection(db, 'contactData')
+    const handleSubmit = (event) => {
         event.preventDefault();
+        // your form submit function here
+        addDoc(userCollectionRef, {
+            name: name,
+            class: className,
+            roll: roll
+        })
 
-        try {
-            const collection = db.collection("students");
-            const addDoc = await collection.add({
-                name,
-                className
-            });
-            console.log(`Document added with ID: ${addDoc.id}`);
-        } catch (error) {
-            console.error("Error adding document: ", error);
-        }
     };
     return (
         <div style={{ marginLeft: '250px' }}>
