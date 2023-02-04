@@ -6,6 +6,8 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText, Dialog
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from '../firebaseConfig';
 
 const useStyles = styled({
     root: {
@@ -23,17 +25,33 @@ const ManageStudents = () => {
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
     const [selectedStudent, setSelectedStudent] = useState({});
+    const [data, setData] = useState([])
 
     useEffect(() => {
         // Get the list of students from your API or database
         // Example:
-        fetch('/api/students')
-            .then(res => res.json())
-            .then(data => {
-                setStudents(data);
-            })
-            .catch(error => console.error(error));
+        // fetch('/api/students')
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         setStudents(data);
+        //     })
+        //     .catch(error => console.error(error));
+        const fetchData = async () => {
+            let list = []
+            try {
+                const querySnapshot = await getDocs(collection(db, "contactData"));
+                querySnapshot.forEach((doc) => {
+                    list.push(doc)
+                    console.log(doc.id, " => ", doc.data());
+                });
+                setData(list)
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData()
     }, []);
+    console.log(data);
 
     const handleViewOpen = student => {
         setSelectedStudent(student);

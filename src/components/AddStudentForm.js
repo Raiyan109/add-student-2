@@ -53,14 +53,19 @@ const AddStudentForm = () => {
         }
     };
 
-    const userCollectionRef = collection(db, 'contactData')
+
     const handleSubmit = (event) => {
         event.preventDefault();
         // your form submit function here
+        const userCollectionRef = collection(db, 'contactData')
         addDoc(userCollectionRef, {
             name: name,
             class: className,
             roll: roll
+        }).then(() => {
+            if (!alert("Form submitted Successfully!!!")) document.location = '/'
+        }).catch((error) => {
+            alert(error.message)
         })
 
     };
