@@ -18,7 +18,7 @@ const useStyles = styled({
     },
 
 });
-const ManageStudents = () => {
+const ManageStudents = ({ student }) => {
     const classes = useStyles();
     const [students, setStudents] = useState([]);
     const [openView, setOpenView] = useState(false);
@@ -44,7 +44,8 @@ const ManageStudents = () => {
                     list.push(doc)
                     console.log(doc.id, " => ", doc.data());
                 });
-                setData(list)
+                setStudents(list)
+                console.log(list);
             } catch (error) {
                 console.log(error);
             }
@@ -113,8 +114,8 @@ const ManageStudents = () => {
                         {students.map(student => (
                             <TableRow key={student.id}>
                                 <TableCell>{student.name}</TableCell>
-                                <TableCell>{student.email}</TableCell>
-                                <TableCell>Roll no</TableCell>
+                                <TableCell>{student.className}</TableCell>
+                                <TableCell>{student.roll}</TableCell>
                                 <TableCell>
                                     <Button onClick={() => handleViewOpen(student)}><VisibilityIcon /></Button>
                                     <Button onClick={() => handleEditOpen(student)}><EditIcon /></Button>
